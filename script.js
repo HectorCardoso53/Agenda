@@ -44,14 +44,16 @@ async function listTasks() {
     // Texto
     const taskText = document.createElement("div");
     taskText.innerHTML = `
-      <div>
-        <strong>${task.diaSemana || "Dia não informado"}</strong> - ${task.nome} - 
-        <span style="color:#d30f7e;">${task.horarioSaida || ""}</span>
-      </div>
-      <small class="text-muted">
-        📅 ${task.data || ""} | 🚏 Saída: ${task.localSaida || ""} às ${task.horarioSaida || ""} | 🎯 Destino: ${task.destino || ""}
-      </small>
-    `;
+  <div>
+    <strong>${task.diaSemana || "Dia não informado"}</strong> - 
+    <strong>${task.nome}</strong> - 
+    <span style="color:#d30f7e;">${task.horarioSaida || ""}</span>
+  </div>
+  <small class="text-muted">
+    📅 <strong>${task.data || ""}</strong> | 🚏 Saída: ${task.localSaida || ""} às ${task.horarioSaida || ""} | 🎯 Destino: ${task.destino || ""}
+  </small>
+`;
+
 
     if (task.concluido) {
       taskText.style.textDecoration = "line-through";

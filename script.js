@@ -23,7 +23,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const agendaRef = collection(db, "agenda"); // referência para a coleção "agenda"
+const agendaRef = collection(db, "agenda");
 
 // =============================
 // Função: Listar Compromissos
@@ -37,17 +37,20 @@ async function listTasks() {
     const task = docSnap.data();
     const taskId = docSnap.id;
 
-    // Criar item da lista
+    // Item da lista
     const listItem = document.createElement("li");
-    listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+    listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start", "mb-2", "shadow-sm");
 
-    // Texto (nome + dados extras)
-    const taskText = document.createElement("span");
+    // Texto
+    const taskText = document.createElement("div");
     taskText.innerHTML = `
-      <strong>${task.nome}</strong><br>
-      Data: ${task.data} <br>
-      Saída: ${task.localSaida || "Não informado"} às ${task.horarioSaida || "Não informado"} <br>
-      Destino: ${task.destino || "Não informado"}
+      <div>
+        <strong>${task.diaSemana || "Dia não informado"}</strong> - ${task.nome} - 
+        <span style="color:#d30f7e;">${task.horarioSaida || ""}</span>
+      </div>
+      <small class="text-muted">
+        📅 ${task.data || ""} | 🚏 Saída: ${task.localSaida || ""} às ${task.horarioSaida || ""} | 🎯 Destino: ${task.destino || ""}
+      </small>
     `;
 
     if (task.concluido) {
@@ -55,7 +58,7 @@ async function listTasks() {
       taskText.style.color = "gray";
     }
 
-    // Checkbox de concluído
+    // Checkbox concluído
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.concluido;
@@ -65,33 +68,35 @@ async function listTasks() {
       listTasks();
     });
 
-    // Botões (editar/excluir)
+    // Botões editar/excluir
     const btnRow = document.createElement("div");
     btnRow.classList.add("d-flex", "gap-1");
 
-    // Botão Editar
+    // Editar
     const btnEdit = document.createElement("button");
     btnEdit.classList.add("btn", "btn-sm", "btn-warning");
     btnEdit.innerHTML = '<i class="bi bi-pencil-square"></i>';
     btnEdit.title = "Editar";
     btnEdit.addEventListener("click", async () => {
-      const newNome = prompt("Edite o nome do compromisso:", task.nome) ?? task.nome;
-      const newData = prompt("Edite a data do compromisso:", task.data) ?? task.data;
-      const newLocal = prompt("Edite o local de saída:", task.localSaida || "") ?? task.localSaida;
-      const newHorario = prompt("Edite o horário de saída:", task.horarioSaida || "") ?? task.horarioSaida;
-      const newDestino = prompt("Edite o destino:", task.destino || "") ?? task.destino;
+      const newDiaSemana = prompt("Dia da Semana:", task.diaSemana) ?? task.diaSemana;
+      const newNome = prompt("Nome do compromisso:", task.nome) ?? task.nome;
+      const newData = prompt("Data:", task.data) ?? task.data;
+      const newHorario = prompt("Horário de saída:", task.horarioSaida || "") ?? task.horarioSaida;
+      const newLocal = prompt("Local de saída:", task.localSaida || "") ?? task.localSaida;
+      const newDestino = prompt("Destino:", task.destino || "") ?? task.destino;
 
       await updateDoc(doc(db, "agenda", taskId), { 
+        diaSemana: newDiaSemana,
         nome: newNome, 
         data: newData,
-        localSaida: newLocal,
         horarioSaida: newHorario,
+        localSaida: newLocal,
         destino: newDestino
       });
       listTasks();
     });
 
-    // Botão Excluir
+    // Excluir
     const btnDelete = document.createElement("button");
     btnDelete.classList.add("btn", "btn-sm", "btn-danger");
     btnDelete.innerHTML = '<i class="bi bi-trash3-fill"></i>';
@@ -106,7 +111,7 @@ async function listTasks() {
     btnRow.appendChild(btnEdit);
     btnRow.appendChild(btnDelete);
 
-    // Montagem final do item
+    // Montagem final
     const leftDiv = document.createElement("div");
     leftDiv.classList.add("d-flex", "align-items-start");
     leftDiv.appendChild(checkbox);
@@ -120,25 +125,29 @@ async function listTasks() {
 }
 
 // =============================
-// Função: Adicionar Compromisso
+// Adicionar Compromisso
 // =============================
 async function addTask() {
-  const nome = prompt("Digite o nome do compromisso:");
+  const diaSemana = prompt("Dia da Semana:");
+  if (!diaSemana) return;
+
+  const nome = prompt("Nome do compromisso:");
   if (!nome) return;
 
-  const data = prompt("Digite a data do compromisso (ex: 09/10/2025):");
+  const data = prompt("Data (ex: 06/09/2026):");
   if (!data) return;
 
-  const localSaida = prompt("Digite o local de saída:") || "Não informado";
-  const horarioSaida = prompt("Digite o horário de saída (ex: 07:30):") || "Não informado";
-  const destino = prompt("Digite o destino:") || "Não informado";
+  const horarioSaida = prompt("Horário de saída (ex: 6h):") || "";
+  const localSaida = prompt("Local de saída:") || "";
+  const destino = prompt("Destino:") || "";
 
   await addDoc(agendaRef, {
+    diaSemana,
     nome,
     data,
     concluido: false,
-    localSaida,
     horarioSaida,
+    localSaida,
     destino
   });
 

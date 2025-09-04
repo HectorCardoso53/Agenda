@@ -10,18 +10,20 @@
 </head>
 
 <body class="bg-light">
-  <!-- Cabeçalho personalizado -->
+  <!-- Cabeçalho -->
   <header class="text-white text-center py-4" style="background-color: #d30f7e;">
-    <img src="logo_monica.png" alt="Logo Vereadora" id="logo" style="width: 150px; height: auto;">
+    <img src="logo_monica.png" alt="Logo Vereadora" style="width: 200px; height: auto;">
     <h1 class="fw-bold" style="font-size: 2rem;">Agenda da Vereadora Monica Franco</h1>
   </header>
 
   <main class="container py-4">
-    <!-- Seção de Compromissos -->
+    <!-- Compromissos -->
     <section id="agenda" class="mb-4">
-      <h2 class="text-primary" style="color:#2f79be;">Compromissos</h2>
+      <h2 class="fw-bold" style="color:#2f79be;">Compromissos</h2>
       <ul id="taskList" class="list-group mb-3"></ul>
-      <button id="btnAddTask" class="btn w-100" style="background-color: #2f79be; color: white;">Adicionar Compromisso</button>
+      <button id="btnAddTask" class="btn w-100" style="background-color: #2f79be; color: white;">
+        <i class="bi bi-plus-circle"></i> Adicionar Compromisso
+      </button>
     </section>
   </main>
 
@@ -30,8 +32,7 @@
     <p class="mb-0">&copy; 2025 Vereadora Monica Franco</p>
   </footer>
 
-  <!-- Firebase e Script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Script -->
   <script type="module" src="script.js"></script>
 </body>
 </html>

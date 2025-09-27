@@ -1,1 +1,5 @@
-/config/firebaseConfig.js
+# Ignorar pasta config
+/config/
+
+# Ignorar arquivos de log ou temporários
+*.log

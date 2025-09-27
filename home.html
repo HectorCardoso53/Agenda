@@ -54,12 +54,16 @@
       </a>
     </section>
 
-    
-     <section id="mapa-section" class="mt-4">
-  <a href="mapa.html" class="btn w-100" style="background-color: #28a745; color: white;">
-    <i class="bi bi-geo-alt-fill"></i> Ver Mapa de Visitas
-  </a>
-</section>
+    <!-- Mapas -->
+    <section id="mapa-section" class="mt-4">
+      <a href="mapa.html" class="btn w-100" style="background-color: #28a745; color: white;">
+        <i class="bi bi-geo-alt-fill"></i> Ver Mapa de Visitas
+      </a>
+      <!-- Botão Lista de Apoiadores -->
+      <button id="btnApoiadores" class="btn w-100 mt-4" style="background-color: #17a2b8; color: white;">
+        <i class="bi bi-list-check"></i> Lista de Apoiadores
+      </button>
+    </section>
 
   </main>
 
@@ -70,5 +74,11 @@
 
   <!-- Script -->
   <script type="module" src="js/script.js"></script>
+  <script>
+    // Abrir Google Sheets ao clicar no botão
+    document.getElementById("btnApoiadores").addEventListener("click", () => {
+      window.open("https://docs.google.com/spreadsheets/d/1S6vINDFk5Rmd1IjY_XRaczFgg0adJpbC3SgRQmb8nmo/edit?usp=sharing", "_blank");
+    });
+  </script>
 </body>
 </html>

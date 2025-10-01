@@ -146,5 +146,18 @@ window.addEventListener("DOMContentLoaded", () => {
   if (btnAddTask) btnAddTask.addEventListener("click", addTask);
   if (selectMes) selectMes.addEventListener("change", listTasks);
 
+  // Selecionar mês atual
+  const hoje = new Date();
+  const nomeMeses = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  const mesAtual = nomeMeses[hoje.getMonth()] + hoje.getFullYear();
+  const option = [...selectMes.options].find(opt => opt.value === mesAtual);
+  if (option) {
+    selectMes.value = mesAtual;
+  }
+
   listTasks();
 });
+
